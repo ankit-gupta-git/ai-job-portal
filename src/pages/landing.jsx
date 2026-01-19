@@ -67,7 +67,7 @@ const LandingPage = () => {
           >
             <motion.div variants={fadeInUp} className="space-y-8">
               <Badge variant="outline" className="px-4 py-1.5 text-sm font-medium bg-blue-500/10 border-blue-500/30 text-blue-300 hover:bg-blue-500/20">
-                🚀 New Features Just Launched
+                New Features Just Launched
               </Badge>
               <motion.h1
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400"
@@ -113,11 +113,37 @@ const LandingPage = () => {
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
                 <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="h-8 w-8 rounded-full border-2 border-gray-800 bg-gray-700 flex items-center justify-center text-xs font-medium">
-                      {i}+k
-                    </div>
+                  {[
+                    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face&auto=format",
+                    "https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=766&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face&auto=format",
+                    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face&auto=format"
+                  ].map((avatar, i) => (
+                    <motion.div
+                      key={i}
+                      className="relative"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.4, delay: 0.6 + (i * 0.1) }}
+                      whileHover={{ scale: 1.1, zIndex: 10 }}
+                    >
+                      <img
+                        src={avatar}
+                        alt={`Professional ${i + 1}`}
+                        className="h-8 w-8 rounded-full border-2 border-gray-800 hover:border-blue-400 transition-all duration-300 object-cover"
+                        loading="lazy"
+                      />
+                    </motion.div>
                   ))}
+                  <motion.div
+                    className="h-8 w-8 rounded-full border-2 border-gray-800 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white hover:scale-110 transition-transform duration-300 cursor-pointer"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4, delay: 1 }}
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    +
+                  </motion.div>
                 </div>
                 <span className="ml-3">Join our community of professionals</span>
               </motion.div>
