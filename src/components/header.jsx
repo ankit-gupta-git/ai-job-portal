@@ -132,19 +132,27 @@ const Header = () => {
                   setIsMenuOpen(false);
                 }
               }}
-              className="text-left w-full hover:text-white transition"
+              className="block w-full text-left py-2 px-2 text-gray-300 hover:text-white transition-colors rounded-md hover:bg-gray-800"
             >
               Browse Jobs
             </button>
-            <Link to="/companies" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/companies"
+              onClick={() => setIsMenuOpen(false)}
+              className="block w-full text-left py-2 px-2 text-gray-300 hover:text-white transition-colors rounded-md hover:bg-gray-800"
+            >
               Companies
             </Link>
-            <Link to="/about" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/about"
+              onClick={() => setIsMenuOpen(false)}
+              className="block w-full text-left py-2 px-2 text-gray-300 hover:text-white transition-colors rounded-md hover:bg-gray-800"
+            >
               About
             </Link>
             <SignedOut>
               <button
-                className="text-left w-full"
+                className="block w-full text-left py-2 px-2 text-gray-300 hover:text-white transition-colors rounded-md hover:bg-gray-800"
                 onClick={() => setShowSignIn(true)}
               >
                 Sign In

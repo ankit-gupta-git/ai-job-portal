@@ -63,21 +63,21 @@ const JobCard = ({
       {loadingDeleteJob && (
         <BarLoader className="mt-4" width={"100%"} color="#36d7b7" />
       )}
-      <CardHeader className="flex">
-        <CardTitle className="flex justify-between font-bold">
-          {job.title}
+      <CardHeader>
+        <CardTitle className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+          <span className="text-lg sm:text-xl">{job.title}</span>
           {isMyJob && (
             <Trash2Icon
               fill="red"
               size={18}
-              className="text-red-300 cursor-pointer"
+              className="text-red-300 cursor-pointer self-end sm:self-auto"
               onClick={handleDeleteJob}
             />
           )}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4 flex-1">
-        <div className="flex justify-between">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
           {job.company && (
             <img
               src={job.company.logo_url || "/company-placeholder.png"}
@@ -89,14 +89,16 @@ const JobCard = ({
             />
           )}
 
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center text-sm text-gray-600">
             <MapPinIcon size={15} /> {job.location}
           </div>
         </div>
         <hr />
-        {job.description.substring(0, job.description.indexOf("."))}.
+        <p className="text-sm text-gray-700 line-clamp-3">
+          {job.description.substring(0, job.description.indexOf("."))}.
+        </p>
       </CardContent>
-      <CardFooter className="flex gap-2">
+      <CardFooter className="flex flex-col sm:flex-row gap-2">
         <Link to={`/job/${job.id}`} className="flex-1">
           <Button variant="secondary" className="w-full">
             More Details
@@ -105,7 +107,7 @@ const JobCard = ({
         {!isMyJob && (
           <Button
             variant="outline"
-            className="w-15"
+            className="w-full sm:w-auto px-4"
             onClick={handleSaveJob}
             disabled={loadingSavedJob}
           >

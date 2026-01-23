@@ -5,6 +5,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider } from '@/components/theme-provider';
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import ScrollToTop from "@/components/scroll-to-top";
 import { Outlet } from "react-router-dom";
 
 const pageVariants = {
@@ -47,6 +48,7 @@ const AppLayout = () => {
           {/* Main content */}
           <div className="relative z-10 min-h-screen flex flex-col">
             <Header />
+            <ScrollToTop />
             
             <AnimatePresence mode="wait">
               <motion.main
