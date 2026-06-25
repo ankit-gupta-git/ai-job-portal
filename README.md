@@ -27,13 +27,88 @@ A modern job portal built with React, Supabase, and Clerk, designed to connect r
 
 ## Tech Stack
 
-- **Frontend**: React 18, Vite, TypeScript
+- **Frontend**: React 18, Vite, JavaScript
 - **UI Components**: shadcn/ui, Tailwind CSS
 - **Authentication**: Clerk
 - **Backend & Database**: Supabase with PostgreSQL
-- **State Management**: React Query
+- **State Management**: Custom Fetch Hook (`useFetch`) + React State
 - **Form Handling**: React Hook Form with Zod validation
 - **Deployment**: Vercel/Netlify ready
+
+## System Architecture
+
+The following diagram illustrates the system architecture and end-to-end data workflow of the Job Portal application, highlighting how the React client, Clerk authentication, and Supabase backend-as-a-service interact:
+
+![System Architecture](./public/architecture_diagram.png)
+
+<details>
+  <summary><b>View Interactive Mermaid Diagram Source</b></summary>
+
+```mermaid
+graph TD
+    %% Styles
+    classDef client fill:#f4f4f5,stroke:#3f3f46,stroke-width:2px,color:#18181b;
+    classDef auth fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#1e3a8a;
+    classDef backend fill:#ecfdf5,stroke:#059669,stroke-width:2px,color:#064e3b;
+    classDef storage fill:#fff7ed,stroke:#ea580c,stroke-width:2px,color:#7c2d12;
+
+    %% Subgraphs
+    subgraph Client [Client Application - React SPA]
+        UI[shadcn/ui Components & Layouts]
+        Pages[React Pages / Views]
+        Hook[useFetch Custom Hook]
+        SClient[Supabase Client Utility]
+    end
+
+    subgraph Auth [Authentication]
+        Clerk[Clerk Auth SDK]
+    end
+
+    subgraph Supabase [Supabase Backend-as-a-Service]
+        RLS[Row Level Security RLS Policies]
+        
+        subgraph Database [PostgreSQL Database]
+            jobs[(jobs table)]
+            companies[(companies table)]
+            applications[(applications table)]
+            saved_jobs[(saved_jobs table)]
+        end
+
+        subgraph Storage [Storage Buckets]
+            resumes[(resumes bucket)]
+            logos[(company-logo bucket)]
+        end
+    end
+
+    %% Connections
+    UI --> Pages
+    Pages --> Hook
+    Hook --> Clerk : 1. Request Supabase JWT
+    Clerk -- Supabase JWT --> Hook
+    Hook --> SClient : 2. Instantiate with JWT
+    SClient --> RLS : 3. Authenticated Queries
+    
+    RLS --> jobs
+    RLS --> companies
+    RLS --> applications
+    RLS --> saved_jobs
+    
+    RLS --> resumes
+    RLS --> logos
+
+    %% Class Assign
+    class UI,Pages,Hook,SClient client;
+    class Clerk auth;
+    class RLS,jobs,companies,applications,saved_jobs backend;
+    class resumes,logos storage;
+```
+</details>
+
+### Architectural Flow:
+1. **User Authentication**: Users sign in using **Clerk**. When a protected action is performed, the custom `useFetch` hook requests a Supabase-templated JWT from Clerk.
+2. **Authorized Request**: The client-side `supabaseClient` is initialized dynamically with the user's JWT. All API requests are then sent to **Supabase** with this token.
+3. **Data Security**: **Row Level Security (RLS)** policies on Supabase validate the user's identity and determine permission levels (e.g. allowing recruiters to edit hiring status or candidates to view their applications).
+4. **Storage & Assets**: Application files (like candidate PDF resumes and company branding logos) are stored in dedicated **Supabase Storage Buckets**.
 
 ## Getting Started
 
